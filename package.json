@@ -12,11 +12,18 @@
   "activationEvents": [],
   "main": "./src/extension.js",
   "contributes": {
-    "commands": [{
-      "command": "hashnode-for-vscode.setUserName",
-      "title": "Set Username",
-      "category": "Hashnode for VS code"
-    }]
+    "commands": [
+      {
+        "command": "hashnode-for-vscode.setUserName",
+        "title": "Set Username",
+        "category": "Hashnode for VS Code"
+      },
+      {
+        "command": "hashnode-for-vscode.userProfile",
+        "title": "User Profile",
+        "category": "Hashnode for VS Code"
+      }
+    ]
   },
   "scripts": {
     "lint": "eslint .",

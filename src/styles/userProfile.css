@@ -1,0 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.hashnode-icon {
+  padding: 0 20px;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #000033;
+}
+
+body {
+  padding: 10px;
+}
+
+h1 {
+  color: white;
+  line-height: 2rem;
+}
+
+.profile-picture {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.user-info-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.user-headline {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  font-weight: normal;
+  color: #e6e6e6;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px;
+}
+
+.bio,
+.available-for, .publications-container {
+  padding: 20px;
+  margin:10px auto;
+  line-height: 1rem;
+  border: 1px solid #dbdbdb;
+  border-radius: 24px;
+  width: 40vw;
+}
+
+.links-container {
+  width: 50vw;
+  padding: 20px;
+  margin: 10px auto;
+}
+
+.link {
+  color: #100de5;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+  padding: 5px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.popularity-container {
+  width: 40vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: auto;
+}
+
+.popularity-container,.follower-container,.following-container,.location-container, .member-since-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+}
+
+.follower-count, .following-count,.location,.member-since {
+  font-weight: bold;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.follower-text,.following-text,.location-text,.member-since-text{
+  color: #e6e6e6;
+  font-size: 1rem;
+  padding: 5px;
+}
+
+.publication-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  margin: 20px;
+}
+
+.bio-availablility-wrapper{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin: 10px;
+}
+.publications-container>h3, .available-for > h3,.bio > h3 {
+  color: #e6e6e6;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  padding: 5px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.available-for > p,.bio > p,.publications > .publication-title {
+  color: #c2c2c2;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+  padding: 5px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
