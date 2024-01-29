@@ -1,5 +1,6 @@
 const vscode = require("vscode");
 const userProfile = require("./pages/profile.js");
+const feed = require("./pages/feed.js");
 
 function activate(context) {
   console.log(
@@ -23,6 +24,11 @@ function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerCommand("hashnode-for-vscode.userProfile", () => {
       userProfile(context);
+    })
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand("hashnode-for-vscode.feed", () => {
+     feed(context);
     })
   );
 }
