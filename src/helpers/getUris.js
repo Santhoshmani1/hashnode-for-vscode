@@ -6,8 +6,16 @@ function getUris(context) {
     path.join(context.extensionPath, "src", "styles", "userProfile.css")
   );
 
+  const feedStyleSheet =  vscode.Uri.file(
+    path.join(context.extensionPath, "src", "styles", "feed.css")
+  );
+
   const createProfileScript = vscode.Uri.file(
     path.join(context.extensionPath, "src", "helpers", "createProfile.js")
+  );
+
+  const populateFeedScript = vscode.Uri.file(
+    path.join(context.extensionPath, "src", "helpers", "populateFeed.js")
   );
 
   const hashnodeImg = vscode.Uri.file(
@@ -59,7 +67,9 @@ function getUris(context) {
 
   return {
     userStyleSheet,
+    feedStyleSheet,
     createProfileScript,
+    populateFeedScript,
     hashnodeImg,
     githubIcon,
     twitterIcon,

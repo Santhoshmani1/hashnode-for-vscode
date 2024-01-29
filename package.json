@@ -22,6 +22,11 @@
         "command": "hashnode-for-vscode.userProfile",
         "title": "User Profile",
         "category": "Hashnode for VS Code"
+      }, 
+      {
+        "command": "hashnode-for-vscode.feed",
+        "title": "Feed",
+        "category": "Hashnode for VS Code"
       }
     ]
   },
