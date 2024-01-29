@@ -27,6 +27,11 @@
         "command": "hashnode-for-vscode.feed",
         "title": "Feed",
         "category": "Hashnode for VS Code"
+      }, 
+      {
+        "command": "hashnode-for-vscode.blog",
+        "title": "Blog",
+        "category": "Hashnode for VS Code"
       }
     ]
   },
