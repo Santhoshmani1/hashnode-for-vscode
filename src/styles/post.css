@@ -1,0 +1,85 @@
+body {
+  background-color: #0f172a;
+  color: #ffffff;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  width: 70vw;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2.5rem;
+  line-height: 2rem;
+  color: #ffffff;
+  padding: 10px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+h2 {
+  font-size: 2rem;
+  line-height: 1.5rem;
+  padding: 10px;
+  color: #eeeeee;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+h3 {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  color: #dbdbdb;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+p {
+  font-size: 18px;
+  color: #eeeeee;
+  line-height: 1.5rem;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  margin: 10px;
+}
+
+a {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+ul {
+    padding: 10px;
+}
+
+li {
+    list-style: disc;
+    padding: 5px;
+    font-size: 18px;
+    color: #eeeeee;
+}
+
+pre {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+}
+
+ code {
+  background-color: transparent;
+  border-radius: 0px;
+  font-weight: 500 !important;
+  padding: 0px;
+  font-size: 100%;
+  color: #fafafa;
+}
+
+.dark code {
+  background-color: transparent;
+  color: #ddd;
+}
+
+img {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  margin: auto;
+}
+

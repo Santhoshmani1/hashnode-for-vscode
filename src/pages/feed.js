@@ -1,8 +1,7 @@
 const vscode = require("vscode");
 const feedQuery = require("../apiQueries/feed.js");
 const getUris = require("../helpers/getUris.js");
-
-
+const post = require("./post.js");
 
 function feed(context) {
   const panel = vscode.window.createWebviewPanel(
@@ -14,11 +13,23 @@ function feed(context) {
     }
   );
 
-  const {populateFeedScript,feedStyleSheet,hashnodeImg} = getUris(context);
+  const { populateFeedScript, feedStyleSheet, hashnodeImg } = getUris(context);
 
   const populateFeedScriptUri = panel.webview.asWebviewUri(populateFeedScript);
   const feedStyleSheetUri = panel.webview.asWebviewUri(feedStyleSheet);
   const hashnodeImgUri = panel.webview.asWebviewUri(hashnodeImg);
+
+  panel.webview.onDidReceiveMessage(
+    (message) => {
+      switch (message.command) {
+        case "openPost":
+          post(context,message.id);
+          return;
+      }
+    },
+    undefined,
+    context.subscriptions
+  );
 
   panel.webview.html = `
     <!DOCTYPE html>
@@ -41,6 +52,25 @@ function feed(context) {
     </main>
     <script src="${populateFeedScriptUri}"></script>
     <script>
+    const vscode = acquireVsCodeApi();
+    function openPost(id) {
+      console.log(id);
+      vscode.postMessage({
+        command: 'openPost',
+        id: id
+      })
+    }
+    function dispatchOpenPostEvent(id) {
+      const event = new CustomEvent('openPost', { detail: id });
+      window.dispatchEvent(event);
+    }
+    
+    window.addEventListener('openPost', function (event) {
+      vscode.postMessage({
+        command: 'openPost',
+        id: event.detail
+      });
+    });
     fetch("https://gql.hashnode.com", {
       method: "POST",
       headers: {
@@ -57,7 +87,7 @@ function feed(context) {
       const feedHtml = populateFeed(feedData.data.feed.edges)
       document.querySelector(".hashnode-feed").innerHTML = feedHtml
     })
-    .catch((error) => console.error('Error:', error));
+    .catch((error) => console.error('Error:', error))
       </script>
   </body>
 </html>

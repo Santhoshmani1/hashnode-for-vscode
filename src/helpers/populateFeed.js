@@ -1,11 +1,8 @@
 function populateFeed(feedData) {
-  feedData.map(({ node }) => {
-    console.log(node);
-  });
   return feedData
     .map(
       ({ node }) => `
-        <div class="post">
+        <div class="post" id="${node.id}">
         <h2 class="post-title">${node.title}</h2>
        <div class="author-info">
        <img src="${node.author.profilePicture}" alt="${
@@ -18,7 +15,7 @@ function populateFeed(feedData) {
        </div>
      <div class="post-header">
      <div>
-     <p class>${node.brief}</p>
+     <p  onclick="dispatchOpenPostEvent('${node.id}')">${node.brief}</p>
      </div>
      <div>
           ${
