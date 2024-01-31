@@ -19,6 +19,7 @@ query Publication($host: String) {
         mastodon
         instagram
       }
+      headerColor
       preferences {
         navbarItems {
           id
@@ -34,6 +35,7 @@ query Publication($host: String) {
                   id
                   title
                   subtitle
+                  brief
                   publishedAt
                   coverImage {
                     url
@@ -65,7 +67,38 @@ query Publication($host: String) {
           members
         }
       }
+      author {
+        id
+        username
+        name
+        profilePicture 
+      }
+      pinnedPost {
+        id
+        title
+        coverImage {
+          url
+        }
+        slug
+        brief
+        views
+        readTimeInMinutes
+      }
+      posts(first:20) {
+        edges {
+          node {
+            id
+            title
+            coverImage {
+              url
+            }
+            brief
+            views
+            readTimeInMinutes
+          }
+        }
+      }
     }
   }  
-`
+`;
 module.exports = blogQuery;
