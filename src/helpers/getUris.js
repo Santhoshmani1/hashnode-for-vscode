@@ -14,6 +14,10 @@ function getUris(context) {
     path.join(context.extensionPath, "src", "styles", "blog.css")
   );
 
+  const postStyleSheet = vscode.Uri.file(
+    path.join(context.extensionPath, "src", "styles", "post.css")
+  );
+
   const createProfileScript = vscode.Uri.file(
     path.join(context.extensionPath, "src", "helpers", "createProfile.js")
   );
@@ -73,6 +77,7 @@ function getUris(context) {
     userStyleSheet,
     feedStyleSheet,
     blogStyleSheet,
+    postStyleSheet,
     createProfileScript,
     populateFeedScript,
     hashnodeImg,
