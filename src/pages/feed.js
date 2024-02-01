@@ -1,5 +1,7 @@
+
 const vscode = require("vscode");
 const feedQuery = require("../apiQueries/feed.js");
+const userProfile = require("./profile.js");
 const getUris = require("../helpers/getUris.js");
 const post = require("./post.js");
 
@@ -25,11 +27,15 @@ function feed(context) {
         case "openPost":
           post(context,message.id);
           return;
+        case "openProfile":
+          userProfile(context,message.username);
+          return;
       }
     },
     undefined,
     context.subscriptions
   );
+
 
   panel.webview.html = `
     <!DOCTYPE html>
@@ -64,11 +70,24 @@ function feed(context) {
       const event = new CustomEvent('openPost', { detail: id });
       window.dispatchEvent(event);
     }
+
+    function dispatchOpenProfileEvent(username) {
+      console.log(username);
+      const event = new CustomEvent('openProfile', { detail: username });
+      window.dispatchEvent(event);
+    }
     
     window.addEventListener('openPost', function (event) {
       vscode.postMessage({
         command: 'openPost',
         id: event.detail
+      });
+    });
+
+    window.addEventListener('openProfile', function (event) {
+      vscode.postMessage({
+        command: 'openProfile',
+        username: event.detail
       });
     });
     fetch("https://gql.hashnode.com", {
@@ -77,13 +96,12 @@ function feed(context) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        query: \`
-       ${feedQuery}
-        \`,
+        query: \`${feedQuery} \`,
       })
     })
     .then((res) => res.json())
     .then((feedData) => {
+      console.log(feedData);
       const feedHtml = populateFeed(feedData.data.feed.edges)
       document.querySelector(".hashnode-feed").innerHTML = feedHtml
     })

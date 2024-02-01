@@ -2,8 +2,7 @@ const getUris = require("../helpers/getUris.js");
 const vscode = require("vscode");
 const userQuery = require("../apiQueries/user.js");
 
-function userProfile(context) {
-  const username = context.globalState.get("hashnodeUserName");
+function userProfile(context,username) {
   if (username) {
     const panel = vscode.window.createWebviewPanel(
       "hashnodeProfile",

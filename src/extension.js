@@ -24,7 +24,7 @@ function activate(context) {
   );
   context.subscriptions.push(
     vscode.commands.registerCommand("hashnode-for-vscode.userProfile", () => {
-      userProfile(context);
+      userProfile(context,context.globalState.get("hashnodeUserName"));
     })
   );
   context.subscriptions.push(
