@@ -1,9 +1,9 @@
-const getUris = require("../helpers/getUris.js");
 const vscode = require("vscode");
 const userQuery = require("../apiQueries/user.js");
+const blog = require("./blog.js");
+const getUris = require("../helpers/getUris.js");
 
-function userProfile(context) {
-  const username = context.globalState.get("hashnodeUserName");
+function userProfile(context, username) {
   if (username) {
     const panel = vscode.window.createWebviewPanel(
       "hashnodeProfile",
@@ -14,13 +14,39 @@ function userProfile(context) {
       }
     );
 
+    panel.webview.onDidReceiveMessage(
+      (message) => {
+        switch (message.command) {
+          case "openBlog":
+            console.log("openBlog");
+            blog(context, message.blog);
+            return;
+        }
+      },
+      undefined,
+      context.subscriptions
+    );
+
     const {
- userStyleSheet, createProfileScript, hashnodeImg, githubIcon, linkedinIcon, twitterIcon, websiteIcon, facebookIcon, instagramIcon, stackoverflowIcon, youtubeIcon, calendarIcon, locationIcon,
+      userStyleSheet,
+      createProfileScript,
+      hashnodeImg,
+      githubIcon,
+      linkedinIcon,
+      twitterIcon,
+      websiteIcon,
+      facebookIcon,
+      instagramIcon,
+      stackoverflowIcon,
+      youtubeIcon,
+      calendarIcon,
+      locationIcon,
     } = getUris(context);
     const userStyleSheetUri = panel.webview.asWebviewUri(userStyleSheet);
-    const createProfileScriptUri = panel.webview.asWebviewUri(createProfileScript);
+    const createProfileScriptUri =
+      panel.webview.asWebviewUri(createProfileScript);
     const hashnodeImgUri = panel.webview.asWebviewUri(hashnodeImg);
-    
+
     // Create WebView URIs for the remaining icons
     const githubIconUri = panel.webview.asWebviewUri(githubIcon);
     const linkedinIconUri = panel.webview.asWebviewUri(linkedinIcon);
@@ -32,7 +58,6 @@ function userProfile(context) {
     const youtubeIconUri = panel.webview.asWebviewUri(youtubeIcon);
     const calendarIconUri = panel.webview.asWebviewUri(calendarIcon);
     const locationIconUri = panel.webview.asWebviewUri(locationIcon);
-
 
     panel.webview.html = `
     <!DOCTYPE html>
@@ -58,6 +83,18 @@ function userProfile(context) {
     <footer></footer>
     <script src="${createProfileScriptUri}"></script>
     <script>
+    const vscode = acquireVsCodeApi();
+    function dispatchOpenBlog(blog) {
+      console.log(blog);
+      const event = new CustomEvent('openBlog', { detail: blog });
+      window.dispatchEvent(event);
+    }
+    window.addEventListener('openBlog', function (event) {
+      vscode.postMessage({
+        command: 'openBlog',
+        blog: event.detail
+      });
+    })    
     fetch("https://gql.hashnode.com", {
   method: "POST",
   headers: {
@@ -93,7 +130,6 @@ function userProfile(context) {
   profileWrapper.innerHTML = profileHTML;
 })
 .catch((error) => console.error('Error:', error));
-
     </script>
 </body>
 </html>
