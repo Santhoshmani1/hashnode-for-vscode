@@ -36,7 +36,7 @@ function createProfile(profileDetails, icons) {
     value ? `
       <span class="link">
         <a href="${value}" target="_blank" rel="noreferrer">
-          <img src="${icons && icons[`${key}Icon`] ? icons[`${key}Icon`] : ''}" alt="${key}-icon" class="social-icon" width="20"/>
+          <img src="${icons && icons[`${key}Icon`] ? icons[`${key}Icon`] : ''}" alt="${key}" class="social-icon" width="20"/>
         </a>
       </span>
     ` : ''
@@ -55,7 +55,7 @@ function createProfile(profileDetails, icons) {
   <div class="publications-container">
       <h3>Writes at</h3>
       ${publications.edges.map(({ node }) => `
-        <div class="publications">
+        <div class="publications" onclick="dispatchOpenBlog('${node.url.split("https://")[1]}')">
           <p class="publication-title">${node.title}</p>
           <p class="publication-url">${node.url}</p>
         </div>
