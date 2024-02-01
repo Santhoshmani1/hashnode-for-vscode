@@ -1,8 +1,16 @@
 {
   "name": "hashnode-for-vscode",
-  "displayName": "hashnode for vscode",
+  "displayName": "Hashnode for vscode",
   "description": "Connect and Enjoy Hashnode from the comfort of Visual studio code",
+  "publisher": "santhoshmani",
+  "author": {
+    "name": "Santhosh mani"
+  },
+  "icon": "./src/images/icon-128.png",
   "version": "0.0.1",
+  "repository": {
+    "url": "https://github.com/Santhoshmani1/hashnode-for-vscode"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -35,6 +43,7 @@
       }
     ]
   },
+  "homepage": "https://github.com/santhoshmani1/hashnode-for-vscode",
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
