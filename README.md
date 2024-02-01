@@ -1,16 +1,36 @@
 # Hashnode for visual studio code
 
-## Planned features to be Implemented
+<img src="src/images//HashnodeXCode.png" width="350" height="300" style="display:block;margin:10px auto;">
 
-- User profile
-- Feed section
-- Blog publication & Navigation between static pages, predefined pages,series
-- Access to Drafts & adding support for mutations
+Welcome to Hashnode for Visual Studio Code, Bringing the power of Hashnode directly to your favorite code editor! Stay connected with the latest articles, explore engaging blogs and series, and connect with your favorite authors from the comfort of VS Code.
 
-### Resources
 
-Here are some resources that can help you with developing Visual Studio Code extensions:
+## Installation
 
-1. [Creating Your First VS Code Extension](https://code.visualstudio.com/api/get-started/your-first-extension): This is a step-by-step guide to creating your first VS Code extension.
+Download the extension from the VS Code marketplace - [Hashnode for VS code](https://marketplace.visualstudio.com/items?itemName=santhoshmani.hashnode-for-vscode)
 
-2. [VS Code Extension API](https://code.visualstudio.com/api/references/): This is the official API reference for VS Code. It's a great place to start and will be your go-to resource for most development questions.
+## Features ✨
+
+**1. Enjoy articles refined from Hashnode Feed**
+
+**2. Step into favourite 📚 blogs & series**
+
+**3. Visit profiles of your favourite authors📝 right from VS Code**
+
+
+## Usage
+
+- Get started by pressing  ```ctrl+shift+p``` or ```F1 key``` on windows / linux and ```cmd+p``` on mac to open command palette
+- Type ```Hashnode``` to open the list of supported actions. Select the action you want to perform.
+
+
+## Contributing
+
+- Support the project by starring the repository ⭐
+- Contributions to the project are welcome.
+- Noticed an new issue or want to request a feature? [Open an issue](https://github.com/santhoshmani1/hashnode-for-vscode/issues/new) in the issues section.
+
+
+## License
+
+The project is licensed under the [MIT license](LICENSE.md).
