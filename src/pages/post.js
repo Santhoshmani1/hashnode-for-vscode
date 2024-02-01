@@ -62,7 +62,7 @@ function post(context, pageId) {
             return \`
                 <div class="post">\${title}</div>
                 <div class="post-cover">
-                    <img src=\${postData.post?.coverImage?.url} alt=\${title} />
+                    <img src=\${postData.post?.coverImage?.url} alt=\${title} width="400px" height="auto"/>
                 </div>
                 <div class="post-author">\${author.username}</div>
                 <div class="post-date">\${publishedAt}</div>

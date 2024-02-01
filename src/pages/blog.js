@@ -1,6 +1,8 @@
 const vscode = require("vscode");
 const blogQuery = require("../apiQueries/blog.js");
+const post = require("./post.js");
 const getUris = require("../helpers/getUris.js");
+
 function blog(context, host) {
   const panel = vscode.window.createWebviewPanel(
     "hashnodeBlog",
@@ -10,6 +12,14 @@ function blog(context, host) {
   );
   const { blogStyleSheet } = getUris(context);
   const blogStyleSheetUri = panel.webview.asWebviewUri(blogStyleSheet);
+
+  panel.webview.onDidReceiveMessage((message) => {
+    switch (message.command) {
+      case "openPost":
+        post(context, message.detail);
+        return;
+    }
+  });
 
   panel.webview.html = `
     <!DOCTYPE html>
@@ -31,7 +41,24 @@ function blog(context, host) {
             </div>
        </main>
        <script>
-       let publicationData = {};
+       const vscode = acquireVsCodeApi();
+
+        window.addEventListener('openBlog', function (event) {
+          vscode.postMessage({
+            command: 'openBlog',
+            blog: event.detail
+          });
+        });
+
+        function dispatchOpenPostEvent(pageId) {
+          vscode.postMessage({
+            command: 'openPost',
+            detail: pageId
+          });
+        }
+
+        let publicationData = {};
+
         function getBlogData(){
          fetch("https://gql.hashnode.com", {
           method : "POST",
@@ -58,13 +85,10 @@ function blog(context, host) {
           headerWrapper.style.backgroundColor = publicationData.headerColor;
           const listItems = document.querySelectorAll('.blog-navitem');
           const navbarItems = publicationData.preferences.navbarItems;
-          console.log(navbarItems);
           loadHome(publicationData.posts);
           listItems.forEach((item) => {
             item.addEventListener('click', (e) => {
               const pageBody = document.querySelector('.blog-page-body');
-              const url = e.target.id;
-              console.log(url);
               if(url === publicationData.url + "/"){
                 const posts = publicationData.posts;
                 loadHome(posts);
@@ -79,29 +103,29 @@ function blog(context, host) {
           })
          })
        }
+
        function renderBlog(blogData) {
         const { id, title, displayTitle, url, about, links, preferences,posts,headerColo,author} =
           blogData.publication;
         const html = \`
-      <div class="blog-header-wrapper">
-        <div class="author-container" id="\${author.username}">
-          <div class="author-image-container">
-            <img src="\${author.profilePicture}" alt="profile-picture" width="100px" height="100px" class="author-image"/>
-          </div>
-          <div class="blog-title">\${title}</div>
-        </div>          
-        <div class="blog-navbar">
+          <div class="blog-header-wrapper">
+            <div class="author-container" id="\${author.username}">
+              <div class="author-image-container">
+                <img src="\${author.profilePicture}" alt="profile-picture" width="100px" height="100px" class="author-image"/>
+              </div>
+              <div class="blog-title">\${title}</div>
+            </div>          
+            <div class="blog-navbar">
               <ul id="nav-container">
                 <li class="blog-navitem"  id=\${url+ "/"}>Home</li>
-                \${preferences.navbarItems
-                  .map((navItem) => {
-                    return \`
-                    <li class="blog-navitem" id=\${navItem.url}>\${navItem.label}</li>
-                    \`;
-                  })
-                  .join("")}
+                  \${preferences.navbarItems.map((navItem) => {
+                        return \`
+                        <li class="blog-navitem" id=\${navItem.url}>\${navItem.label}</li>
+                        \`;
+                      })
+                      .join("")}
               </ul>
-        </div>
+            </div>
       </div>
       <div class="blog-page-body">
       </div>
@@ -111,36 +135,33 @@ function blog(context, host) {
       function loadHome(posts){
 
         const homeBody = \`
-        <div class="blog-home">
-          \${posts.edges.map(({node}) => {
-            return \`
-            <div class="blog-post">
-              <div class="blog-post-title">\${node.title}</div>
-              <div class="blog-post-brief">\${node.brief}</div>
-              <img src="\${node.coverImage.url}" alt="post-cover-image" width="300px" height="200px" class="post-cover-image"/>
-              <div class="post-read-time" >Read time :\${node.readTimeInMinutes}</div>
-              <div class="post-views">Views : \${node.views}</div>
-            </div>
-            \`;
-          }).join('')}
-       </div>
-       \`;
-       const blogPageBody = document.querySelector(".blog-page-body");
-       blogPageBody.innerHTML = homeBody;
-}
+            <div class="blog-home">
+              \${posts.edges.map(({node}) => {
+                return \`
+                <div class="blog-post" onclick="dispatchOpenPostEvent('\${node.id}')">
+                  <div class="blog-post-title">\${node.title}</div>
+                  <div class="blog-post-brief">\${node.brief}</div>
+                  \${node.coverImage && node.coverImage.url ? \`<img src="\${node.coverImage.url}" alt="post-cover-image" width="300px" height="200px" class="post-cover-image"/>\` : ''}
+                  <div class="post-read-time" >Read time :\${node.readTimeInMinutes}</div>
+                  <div class="post-views">Views : \${node.views}</div>
+                </div>
+                \`;
+              }).join('')}
+          </div>
+          \`;
+          const blogPageBody = document.querySelector(".blog-page-body");
+          blogPageBody.innerHTML = homeBody;
+       }
+
         function loadSeries(navbarItems, url){
           const seriesItem = navbarItems.find(item => item.url === url);
           if(seriesItem && seriesItem.type === 'series') {
-            const posts = seriesItem.series.posts;
-            posts.edges.map(({node}) => {
-              console.log(node.title);
-            })
             const seriesBody = \`
             <div class="blog-series">
             \${posts.edges.map(({node}) => {
               console.log(node);
               return \`
-              <div class="blog-post">
+              <div class="blog-post" onclick="dispatchOpenPostEvent('\${node.id}')">>
                 <div class="blog-post-title">\${node.title}</div>
                 <div class="blog-post-brief">\${node.brief}</div>
                 <img src="\${node.coverImage.url}" alt="post-cover" class="post-cover-image" width="300px" height="200px"/>
@@ -155,14 +176,13 @@ function blog(context, host) {
             blogPageBody.innerHTML = seriesBody;
           }
         }
-      function loadPage(navbarItems, url){
-        const pageItem = navbarItems.find(item => item.url === url);
-        if(pageItem && pageItem.type === 'page') {
-          const htmlContent = pageItem.page.content.html;
-        const blogPageBody = document.querySelector(".blog-page-body");
-        blogPageBody.innerHTML = htmlContent;
-      }
-
+          function loadPage(navbarItems, url){
+            const pageItem = navbarItems.find(item => item.url === url);
+            if(pageItem && pageItem.type === 'page') {
+              const htmlContent = pageItem.page.content.html;
+            const blogPageBody = document.querySelector(".blog-page-body");
+            blogPageBody.innerHTML = htmlContent;
+          }
       }
        getBlogData();
        </script>
