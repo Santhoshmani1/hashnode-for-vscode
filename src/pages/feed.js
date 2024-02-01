@@ -1,9 +1,9 @@
-
 const vscode = require("vscode");
 const feedQuery = require("../apiQueries/feed.js");
 const userProfile = require("./profile.js");
-const getUris = require("../helpers/getUris.js");
 const post = require("./post.js");
+const blog = require("./blog.js")
+const getUris = require("../helpers/getUris.js");
 
 function feed(context) {
   const panel = vscode.window.createWebviewPanel(
@@ -29,6 +29,9 @@ function feed(context) {
           return;
         case "openProfile":
           userProfile(context,message.username);
+          return;
+        case "openBlog":
+          blog(context,message.blog);
           return;
       }
     },
@@ -76,6 +79,12 @@ function feed(context) {
       const event = new CustomEvent('openProfile', { detail: username });
       window.dispatchEvent(event);
     }
+
+    function dispatchOpenBlog(blog) {
+      console.log(blog);
+      const event = new CustomEvent('openBlog', { detail: blog });
+      window.dispatchEvent(event);
+    }
     
     window.addEventListener('openPost', function (event) {
       vscode.postMessage({
@@ -90,6 +99,14 @@ function feed(context) {
         username: event.detail
       });
     });
+
+    window.addEventListener('openBlog', function (event) {
+      vscode.postMessage({
+        command: 'openBlog',
+        blog: event.detail
+      });
+    });
+
     fetch("https://gql.hashnode.com", {
       method: "POST",
       headers: {

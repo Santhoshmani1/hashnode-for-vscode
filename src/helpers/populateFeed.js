@@ -10,7 +10,7 @@ function populateFeed(feedData) {
       }" class="author-profile" />
       <div class="publication">
       <p class="post-author" onclick="dispatchOpenProfileEvent('${node.author.username}')">Author: ${node.author.name}</p>
-      <p> Published to : ${node.publication.url} </p>
+      <p onclick="dispatchOpenBlog('${node.publication.url.split("https://")[1]}')"> Published to : ${node.publication.url} </p>
       </div>
        </div>
      <div class="post-header">
